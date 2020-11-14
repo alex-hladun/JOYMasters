@@ -1,8 +1,8 @@
-import dotenv from 'dotenv'
+
 import './App.css';
 import axios from 'axios';
-import { useEffect, useRef, useState } from 'react';
-// dotenv.config({path:__dirname+'../.env'})
+import { useEffect, useState } from 'react';
+
 
 
 const key = process.env.REACT_APP_KEY
@@ -165,11 +165,11 @@ function App() {
 
   const [leaderboard, setLeaderboard] = useState({})
   const [players, setPlayers] = useState([])
-  const [teamTotal, setTeamTotal] = useState({})
+  // const [teamTotal, setTeamTotal] = useState({})
   const [teamArray, setTeamArray] = useState([])
-  let Players;
-  let playerHTML = useRef('')
-  let leaderboardHTML;
+  // let Players;
+  // let playerHTML = useRef('')
+  // let leaderboardHTML;
 
   useEffect(() => {
     axios.get(`https://api.sportsdata.io/golf/v2/json/Leaderboard/375?key=${key}`).then((res, err) => {
@@ -236,7 +236,7 @@ function App() {
       console.log('sorted team array', sortedTeamArray)
 
       setTeamArray(sortedTeamArray)
-      setTeamTotal(teamTotals)
+      // setTeamTotal(teamTotals)
 
       // playerHTML = players.
 
@@ -257,6 +257,8 @@ function App() {
               {index + 1} - {team.name} - {team.total.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
             </div>
           )
+        } else {
+          return null
         }
       })}
       <br></br>
@@ -276,7 +278,7 @@ function App() {
           )
         }
       })}
-      test
+      {!players[0] && <div>Loading...</div>}
     </div>
   );
 }
