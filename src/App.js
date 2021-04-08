@@ -3,12 +3,8 @@ import './App.css';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-
-
 const key = process.env.REACT_APP_KEY
-// console.log(process.env)
 
-console.log(key)
 const prizes = [
   900000,
   700000,
@@ -61,8 +57,6 @@ const prizes = [
   28600,
   27720,
 ]
-
-
 
 const teams = {
   "40000015": "Kevin M",
@@ -165,14 +159,10 @@ function App() {
 
   const [leaderboard, setLeaderboard] = useState({})
   const [players, setPlayers] = useState([])
-  // const [teamTotal, setTeamTotal] = useState({})
   const [teamArray, setTeamArray] = useState([])
-  // let Players;
-  // let playerHTML = useRef('')
-  // let leaderboardHTML;
 
   useEffect(() => {
-    axios.get(`https://api.sportsdata.io/golf/v2/json/Leaderboard/375?key=${key}`).then((res, err) => {
+    axios.get(`https://api.sportsdata.io/golf/v2/json/Leaderboard/454?key=${key}`).then((res, err) => {
       console.log('axios res', res)
       const leaderData = res.data.Players
       setPlayers(res.data.Players)
@@ -187,8 +177,16 @@ function App() {
             count: 1,
             cumPrize: prizes[index]
           }
+        } else if(!prizes[index] && rankCount[player.Rank]) {
+          rankCount[player.Rank].count++
+        } else if (!prizes[index]) {
+          
         }
+
       })
+
+      
+      console.log("App -> rankCount", rankCount)
 
       setLeaderboard(rankCount)
 
@@ -234,14 +232,7 @@ function App() {
       const sortedTeamArray = teamTotalArray.sort(function (a, b) { return b.total - a.total })
 
       console.log('sorted team array', sortedTeamArray)
-
       setTeamArray(sortedTeamArray)
-      // setTeamTotal(teamTotals)
-
-      // playerHTML = players.
-
-      // leaderboardHTML = 
-
 
     }).catch(err => console.log('err', err))
   }, [])
@@ -262,6 +253,7 @@ function App() {
         }
       })}
       <br></br>
+      
       {players[0] && players.map((player, index) => {
 
         if (leaderboard[player.Rank]) {
